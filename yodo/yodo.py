@@ -52,9 +52,6 @@ def yodo(g, probability, given=None):
     if given is None:
         # Marginal probability case: the function of interest if P(Y_O = y_O)
         numerator.set_evidence(probability, mode='mask')
-        # f = numerator.factors[('asia', 'tub')]
-        # f.data[0, 0] = f[1, 0]
-        # f.data[0, 1] = f[1, 1]
     else:
         # Conditional probability case: the function of interest if P(Y_O = y_O | y_E = y_E)
         numerator.set_evidence({**probability, **given}, mode='mask')
@@ -83,8 +80,6 @@ def yodo(g, probability, given=None):
             num = -torch.sum(grad*f, dim=0, keepdim=True) + grad*f
             denom = 1-f
             grad = grad + num / denom
-            # if nodes == ('either', 'lung', 'tub'):
-                # print('grad now:', grad)
             a = grad
             b = out.item() - f*a
             return a, b
